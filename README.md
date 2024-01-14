@@ -83,4 +83,34 @@ Zeer grote request
 
 ### Privacy and GDPR
 
+#### (PR01) Contact form need to align to GDPR regulations
+
+A visitor is allowed to leave a message by filling out a form so that the owner (Adam in this case) can contact visitors of the site.
+
+The data that the visitor provides is structured by:
+
+* Name
+* Email address
+* Phone Number
+* The actual message
+
+In the context of GDPR the data - which is entered by the visitor - can be considered **personal information**.  
+Depending on the nature of the message left behind, the data can also be considered  can also in some cases be considered sensitive data.
+
+From the website it's not transparent:
+
+* How the data is been processed
+* For what purposes will it be used
+* Retention period for this data?  Will this data being kept in a database forever or will it be removed after some time?
+* ...
+
+#### (PR01) Solution: Provide a privacy notice
+
+#### (PR01) Solution: Provide a processing register
+
+
+
+#### Suggestions
+ 
+
 
