@@ -91,22 +91,32 @@ From the website it's not transparent:
 * Retention period for this data?  Will this data being kept in a database forever or will it be removed after some time?
 * ...
 
-#### (PR01) Solution: Provide a privacy notice 
+##### (PR01-S1) Privacy notice
 
-(PR01-S1) Provide a clearly visible privacy notice (or a link to) and **outline** clearly how the messages and the **data** will be handled.  
+Provide a clearly visible privacy notice (or a link to) and **outline** clearly how the messages and the **data** will be handled.  
 Will it be used only for internal use, is it possible that data will be visible in any form to others.
 
-(PRO1-S2) Provide **contact information** (mail and others) a controller
+##### (PRO1-S2) Contact information
 
-(PRO1-S3) As (I assume) this application is only used by the owner (Adam in this case) for reading messages.
+Provide **contact information** (mail and others) a controller
+
+##### (PRO1-S3) Who is processing?
+
+As (I assume) this application is only used by the owner (Adam in this case) for reading messages.
 clearly indicate that this data will be processed directly by the owner/controller and not by other processors
 
-(PR01-S4) Include a **consent checkbox** in the message form that visitors need to check before submitting their message.  
+##### (PR01-S4) Consent
+
+Include a **consent checkbox** in the message form that visitors need to check before submitting their message.  
 The checkbox should **clearly indicate** that the user **acknowledges** and **agrees** to the terms **outlined** in the **privacy notice**.
 
-(PR01-S5) Provide a **data retention notice**, how long will this message be stored in the database
+##### (PR01-S5) Data-rentention
 
-(PR01-S6) Provide the right of access, rectification and erasure of data.  
+Provide a **data retention notice**, how long will this message be stored in the database
+
+##### (PR01-S6) Provide the right of access, rectification and erasure of data.  
+
+Provide the right of access, rectification and erasure of data to the data-subjects.
 This can be done by building extra software or by describing a clear process to do so.
 
 ### Infrastructure (Docker and Docker Compose)
