@@ -43,28 +43,21 @@ I created a small diagram as an overview of the setup described with the docker-
 
 ![](architecture/security_review.png)
 
-4 containers are active:
+## Approach of this report
 
-The  PHP
-  * Based on php:8.3.11-f
-  * Specific Dockerfile to be found in the repo
-* 
+Each review remark contains an identifier.  
+These identifiers each are prefixed with the type:
 
-#### Cloud setup
+* **PR** for privacy (e.g. PR-01)
+* **IF** for infrastructure (e.g. IF-01)
+* **SCA** for software component analysis (e.g. SCA-01)
+* **SAST** for static code analysis (e.g. SAST-01)
+* **DAST** for dynamic code analysis (e.g. DAST-01)
 
-https://fissirostral-turbin.000webhostapp.com/
+Each proposition for patch or solution is also identified and prefixed with the review identifier.  
 
-https://www.youtube.com/watch?v=DYptNrZXIIo
-
-
-## Approach
-
-The application is for the largest part a static website.
-The focus in this case however lies in the analysis of the operational and infrastructure part.
-
-Beside that the performing dast with ZAP
-
-What I can break in de local I will also use in the cloud
+e.g. a solution for PR-01 could be PR-01-S1 where the S stands for solution.  
+Beside **S** for **solution** we can also use **M** for **mitigation** or **A** for **automation**
 
 ## Review
 
@@ -206,7 +199,7 @@ the necessary regression testing.
 
 This is a 90% static application, some of the libraries can be removed for making the application run.
 
-### (IF-03) Usage of .env-file in a volume
+#### (IF-03) Usage of .env-file in a volume
 
 As mentioned in IF01 source code should not be stored in a volume.  
 The same counts for the .env-file but in that case you would have a problem in adapting
@@ -228,13 +221,13 @@ More information on how to use these in Laravel can be found at:
 * https://www.iwader.co.uk/posts/2017/11/using-docker-secrets-laravel/
 * https://packagist.org/packages/corbosman/laravel-docker-secrets
 
-### (IF-04) Privelege escalation (source: SEMGREP)
+#### (IF-04) Privelege escalation (source: SEMGREP)
 
 Processes running within that container can potentially acquire additional privileges after the initial startup.  
 This includes e.g. changing the effect user and group ID's, capabilities, ... as the container is running
 as superuser.
 
-### (IF-04-S1) Apply security-opt-configuration
+##### (IF-04-S1) Apply security-opt-configuration
 
 Add the security-option as shown below into each service
 
@@ -245,12 +238,12 @@ Add the security-option as shown below into each service
   ...
 ~~~
 
-### (IF-05) Writable root filesystem (source: SEMGREP)
+#### (IF-05) Writable root filesystem (source: SEMGREP)
 
 All services within the docker compose are running with writable root filesystem. 
 This may allow malicious applications to download and run additional payloads, or modify container files. 
 
-### (IF-05-S1) Apply security-opt-configuration
+##### (IF-05-S1) Apply security-opt-configuration
 
 Add the security-option as shown below into each service
 
@@ -322,22 +315,39 @@ See https://github.com/advisories/GHSA-wf5p-g6vw-rhxx  for more information
 
 In order to solve this issue you should upgrade Axios in package.json
 
+##### (SCA-02-A1) Activate Dependabot
+
+Activate Dependabot so that it can create systematically push-requests.
+
 ### Static Code Analysis
 
-#### Development mode
+#### (ST-01) Validate input-fields (manual review)
 
-http://localhost:8080/api/user renders 500-error-code which exposes a debug-mode
+No validation on the size of the messages is provided in the contact-form.  
+This could lead to a Denial Of Service by sending messages of 1.5 MB (above that the ngnix will send a 413 issue.)
 
-#### Code-validation
+##### ST-01-S1 Perform validation in the controller or model
 
-2MB
+Check server-side for a validation on a reasonable size of the message (and other fields).  
 
-Zeer grote request
+### Dynamic Code Analysis
 
-
-
-
-
- 
+#### (DY-01) 
 
 
+#### (DY-02) 
+
+
+#### (DY-03) 
+
+
+#### (DY-04) 
+
+
+#### (DY-05) 
+
+
+#### (DY-06) 
+
+
+#### (DY-07) 
