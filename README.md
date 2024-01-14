@@ -1,11 +1,26 @@
-# Review
+# Review on https://github.com/ehbstudentadam/aboutadamdocker.
 
-pint, PHPStan (& Larastan), PHPInsights, Rector
+This report concerns a review on an application build by my fellow student **Adam Lenez**.
+The source code of this application is to be found at github in the public repo https://github.com/ehbstudentadam/aboutadamdocker.  
+The application itself is publicly hosted and available at https://fissirostral-turbin.000webhostapp.com/.
 
-## Info
+## Description on the application
 
-Repo: https://github.com/ehbstudentadam/aboutadamdocker
-Publicly accessible at https://fissirostral-turbin.000webhostapp.com/
+As preparation for this review some 
+
+### Functional
+
+The application is a intro/bio on Adam (about, hobbies, studies, goals, ...) written in the context of the course "Backend Web".  
+
+![](functional/homepage.png)
+
+#### Dynamic part: Contact
+
+The application is mostly static in nature but contains the possibility to the visitor in 
+leaving behind some comments or messages towards Adam at contact-page (see https://fissirostral-turbin.000webhostapp.com/contact)
+
+![](functional/contactpage.png)
+
 
 ## Nog te wijzigen
 
@@ -199,6 +214,60 @@ https://laravel.com/docs/10.x/pint
 
 https://github.com/larastan/larastan
 https://phpstan.org/user-guide/getting-started
+
+## PHPInsights
+
+~~~
+sudo apt install php-mbstring
+composer require nunomaduro/phpinsights --dev
+php artisan vendor:publish --provider="NunoMaduro\PhpInsights\Application\Adapters\Laravel\InsightsServiceProvider"
+
+• [Code] Disallow empty:
+  app/Http/Middleware/RedirectIfAuthenticated.php:22: Use of empty() is disallowed.
+
+• [Code] Disallow short ternary operator:
+  app/Providers/RouteServiceProvider.php:49: Use of short ternary operator is disallowed.
+
+• [Code] Useless constant type hint:
+  app/Providers/RouteServiceProvider.php:18: Useless @var annotation.
+
+• [Code] No empty comment:
+  app/Providers/AppServiceProvider.php: 
+@@ -15,3 +15,3 @@
+     {
+-        //
++        
+     }
+@@ -25,3 +25,3 @@
+     {
+-        //
++        
+     }
+  app/Providers/AuthServiceProvider.php: 
+@@ -27,3 +27,3 @@
+ 
+-        //
++        
+     }
+  app/Providers/EventServiceProvider.php: 
+@@ -29,3 +29,3 @@
+     {
+-        //
++        
+     }
+  +5 issues omitted
+
+• [Code] Unused parameter:
+  app/Http/Controllers/AboutAdamController.php:90: Unused parameter $id.
+  app/Http/Controllers/AboutAdamController.php:90: Unused parameter $request.
+  app/Http/Controllers/AboutAdamController.php:101: Unused parameter $id.
+  +3 issues omitted
+...
+~~~
+
+### Rector
+
+...
 
 ### Dependabot
 
