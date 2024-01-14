@@ -22,6 +22,10 @@ Beside that the performing dast with ZAP
 
 What I can break in de local I will also use in the cloud
 
+### Minimizing
+
+### Preparation: what needs to be checked
+
 ## Things to abuse
 
 http://localhost:8080/api/user renders 500-error-code which exposes a debug-mode
@@ -32,7 +36,7 @@ http://localhost:8080/api/user renders 500-error-code which exposes a debug-mode
 
 ### Docker libraries and utilties
 
-not minimized, waarom git???
+not minimized, waarom git??? waarom dev
 
 ### htaccess
 
@@ -45,6 +49,8 @@ code naar container bougeren...
 .env file kan 
 
 docker compose exec app cat .env
+
+https://docs.docker.com/compose/use-secrets/
 
 ### Potential DDOS
 
