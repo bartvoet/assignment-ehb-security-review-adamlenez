@@ -21,6 +21,10 @@ leaving behind some comments or messages towards Adam at contact-page (see https
 
 ![](functional/contactpage.png)
 
+### Technical
+
+![](architecture/security_review.png)
+
 
 ## Nog te wijzigen
 
