@@ -61,6 +61,36 @@ Beside **S** for **solution** we can also use **M** for **mitigation** or **A** 
 
 ## Review
 
+An overview of the remarks, source and possible solutions, mitigations or automations 
+are to be found in the remainder of this chapter.  
+For a quick overview you can consult the table below:
+
+
+| ID      | Description                          | Source     | ID         | Solution                                      |
+| ------- | ------------------------------------ | ---------- | ---------- | --------------------------------------------- |
+| PR01-S1 | GDPR regulations                     | Manual     | PR01-S1    | Privacy notice                                |
+|         |                                      |            | PR01-S2    | Contact information                           |
+|         |                                      |            | PR01-S3    | Who is processing?                            |
+|         |                                      |            | PR01-S4    | Consent                                       |
+|         |                                      |            | PR01-S5    | Data-rentention                               |
+|         |                                      |            | PR01-S6    | rectification                                 |
+| IF01    | Codebase inside volume               | Manual     | IF01-S1    | Include configuration and code in the image   |
+| IF02    | Deploying with too many dependencies | Manual     | IF02-S1    | Remove unnecessary dependencies               |
+|         |                                      |            | IF02-S2    | Replace dev-libraries                         |
+|         |                                      |            | IF02-S3    | Minimalistic approach                         |
+| IF-03   | Usage of .env-file inside volume     | Manual     | IF03-S1    | Externalize environment files                 |
+| IF-04   | Privelege escalation                 | SEMGREP    | IF-04-S1   | Apply security-opt-configuration              |
+| IF-05   | Writable root filesystem             | SEMGREP    | IF-05-S1   | Apply read_only-configuration                 |
+| SCA-01  | Outdated PHP-image                   | SNYK       | SCA-01-S1  | Minor upgrade to php:8.2-fpm                  |
+|         |                                      |            | SCA-01-M1  | Mitigation on CVE-2023-45853                  |
+| SCA-02  | Axios outdated                       | DEPENDABOT | SCA-02-S1  | Upgrade Axios to 1.6                          |
+|         |                                      |            | SCA-02-A1  | Activate Dependabot                           |
+| SAST-01 | Validate input-fields                | Manual     | SAST-01-S1 | Perform validation in the controller or model |
+| DAST-01 | Information leaks through .htaccess  | ZAP        | DAST-01-M1 | .htaccess is not being used                   |
+|         |                                      |            | DAST-01-S1 | Remove the .htaccess from the code base       |
+| DAST-02 | CSP Header is not set                | ZAP        | DAST-02-S1 | Add Content-Security-Policy to NGNIX          |
+| DAST-03 | Missing Anti-clickjacking Header     | ZAP        | DAST-03-S1 | Add "frame-ancestors 'none'" to NGNIX         |
+
 ### Privacy and GDPR
 
 #### (PR01) Contact form need to align to GDPR regulations  (source: manual review)
@@ -199,7 +229,7 @@ the necessary regression testing.
 
 This is a 90% static application, some of the libraries can be removed for making the application run.
 
-#### (IF-03) Usage of .env-file in a volume
+#### (IF-03) Usage of .env-file inside volume
 
 As mentioned in IF01 source code should not be stored in a volume.  
 The same counts for the .env-file but in that case you would have a problem in adapting
@@ -243,7 +273,7 @@ Add the security-option as shown below into each service
 All services within the docker compose are running with writable root filesystem. 
 This may allow malicious applications to download and run additional payloads, or modify container files. 
 
-##### (IF-05-S1) Apply security-opt-configuration
+##### (IF-05-S1) Apply read_only-configuration
 
 Add the security-option as shown below into each service
 
@@ -288,7 +318,7 @@ Medium severity:
 To solve the high and medium errors are to be solved without to much impact.  
 You need to replace for this current base-image php:8.2.11-fpm with the latest one php:8.2-fpm
 
-##### (SCA-01-M1) Mitigiation on CVE-2023-45853
+##### (SCA-01-M1) Mitigation on CVE-2023-45853
 
 The critical CVE is very recent and at the time being it's not yet solved.  
 
@@ -303,7 +333,7 @@ and to ensure update.
 An optional feature - as the application is not huge in scale - is to use
 use SNYK for automatic scans, warnings and updates (as DEPENDABOT is not picking this up)
 
-#### (SCA-02) Outdated PHP-image (source: DEPENDABOT)
+#### (SCA-02) Axios outdated (source: DEPENDABOT)
 
 Dependabot (Github) is point to a moderate vulnerability in Axios
 
@@ -321,33 +351,63 @@ Activate Dependabot so that it can create systematically push-requests.
 
 ### Static Code Analysis
 
-#### (ST-01) Validate input-fields (manual review)
+#### (SAST-01) Validate input-fields (manual review)
 
 No validation on the size of the messages is provided in the contact-form.  
-This could lead to a Denial Of Service by sending messages of 1.5 MB (above that the ngnix will send a 413 issue.)
+This could lead to a **Denial Of Service** by sending messages of 1.5 MB (above that the ngnix will send a 413 issue.)
 
-##### ST-01-S1 Perform validation in the controller or model
+##### SAST-01-S1 Perform validation in the controller or model
 
 Check server-side for a validation on a reasonable size of the message (and other fields).  
 
 ### Dynamic Code Analysis
 
-#### (DY-01) 
+The main part of the DAST has been performed with ZAP.  
+An export of the ZAP-report can be found in the [ZAP-report](./zap/ZAP-Report-.html)
+
+#### (DAST-01) Information leaks through .htaccess (ZAP, manual)
+
+ZAP discovered that an .htaccess can be accessed through http://localhost:8080/.htaccess.  
+This can potentially leak information or compromise the webserver.
+
+##### (DAST-01-M1) .htaccess is not being used
+
+Using ngnix the .htaccess is not being used and not sensible information is being shared in this file (after manual review)
+
+##### (DAST-01-S1) Remove the .htaccess from the code base
+
+As it's better to prevent in case the application could be deployed in the future on an Apache Web Server it's better to remove.
+
+#### (DAST-02) CSP Header is not set (ZAP)
+
+> Note: description is copied as described by ZAP as I couldn't describe it better myself
+
+Content Security Policy (CSP) is an added layer of security that helps to detect and mitigate certain types of attacks, including Cross Site Scripting (XSS) and data injection attacks. These attacks are used for everything from data theft to site defacement or distribution of malware.   
+CSP provides a set of standard HTTP headers that allow website owners to declare approved sources of content that browsers should be allowed to load on that page — covered types are JavaScript, CSS, HTML frames, fonts, images and embeddable objects such as Java applets, ActiveX, audio and video files.
 
 
-#### (DY-02) 
+##### (DAST-02-S1) Add Content-Security-Policy to the NGNIX-configuration 
 
+In order to perform to many boilerplate-code in the laravel-code the best and simples option 
+would be to alter the ngnix-configuration.  
+Below you'll fine an example-snippet
 
-#### (DY-03) 
+~~~conf
+add_header Content-Security-Policy "default-src 'self';";
+~~~
 
+#### (DAST-03) Missing Anti-clickjacking Header
 
-#### (DY-04) 
+The response does not include either Content-Security-Policy with 'frame-ancestors' 
+directive or X-Frame-Options to protect against 'ClickJacking' attacks.
 
+##### (DAST-03-S1) Add "frame-ancestors 'none'" to the NGNIX-configuration 
 
-#### (DY-05) 
+Below you'll fine an example-snippet
 
+~~~conf
+add_header Content-Security-Policy "frame-ancestors 'none'";
+add_header X-Frame-Options DENY;
+~~~
 
-#### (DY-06) 
-
-
-#### (DY-07) 
+See also https://probely.com/vulnerabilities/missing-clickjacking-protection#:~:text=To%20configure%20nginx%20to%20send%20the%20X%2DFrame%2DOptions%20header,framing%2C%20typically%20from%20other%20domains for more information.

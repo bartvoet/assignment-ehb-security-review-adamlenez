@@ -1,0 +1,23 @@
+ID,Description,Source,ID,Solution
+PR01-S1,GDPR regulations,Manual,PR01-S1,Privacy notice
+,,,PR01-S2,Contact information
+,,,PR01-S3,Who is processing?
+,,,PR01-S4,Consent
+,,,PR01-S5,Data-rentention
+,,,PR01-S6,rectification
+IF01,Codebase inside volume,Manual,IF01-S1,Include configuration and code in the image
+IF02,Deploying with too many dependencies,Manual,IF02-S1,Remove unnecessary dependencies
+,,,IF02-S2,Replace dev-libraries
+,,,IF02-S3,Minimalistic approach
+IF-03,Usage of .env-file inside volume,Manual,IF03-S1,Externalize environment files
+IF-04,Privelege escalation,SEMGREP,IF-04-S1, Apply security-opt-configuration
+IF-05,Writable root filesystem,SEMGREP,IF-05-S1,Apply read_only-configuration
+SCA-01,Outdated PHP-image,SNYK,SCA-01-S1,Minor upgrade to php:8.2-fpm
+,,,SCA-01-M1,Mitigation on CVE-2023-45853
+SCA-02,Axios outdated,DEPENDABOT,SCA-02-S1,Upgrade Axios to 1.6
+,,,SCA-02-A1,Activate Dependabot
+SAST-01,Validate input-fields,Manual,SAST-01-S1,Perform validation in the controller or model
+DAST-01,Information leaks through .htaccess,ZAP,DAST-01-M1,.htaccess is not being used
+,,,DAST-01-S1,Remove the .htaccess from the code base
+DAST-02,CSP Header is not set,ZAP,DAST-02-S1,Add Content-Security-Policy to NGNIX
+DAST-03,Missing Anti-clickjacking Header,ZAP,DAST-03-S1,"Add ""frame-ancestors 'none'"" to NGNIX"
