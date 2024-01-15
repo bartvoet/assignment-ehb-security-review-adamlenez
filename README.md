@@ -88,7 +88,7 @@ For a quick overview you can consult the table below:
 | SAST-01 | Validate input-fields                | Manual     | SAST-01-S1 | Perform validation in the controller or model |
 | DAST-01 | Information leaks through .htaccess  | ZAP        | DAST-01-M1 | .htaccess is not being used                   |
 |         |                                      |            | DAST-01-S1 | Remove the .htaccess from the code base       |
-| DAST-02 | CSP Header is not set                | ZAP        | DAST-02-S1 | Add Content-Security-Policy to NGNIX          |
+| DAST-02 | CSP Header is not set                | ZAP,SONAR  | DAST-02-S1 | Add Content-Security-Policy to NGNIX          |
 | DAST-03 | Missing Anti-clickjacking Header     | ZAP        | DAST-03-S1 | Add "frame-ancestors 'none'" to NGNIX         |
 
 ### Privacy and GDPR
