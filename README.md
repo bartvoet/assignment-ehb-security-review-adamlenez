@@ -360,6 +360,8 @@ In order to solve this issue you should upgrade Axios in package.json
 
 Activate Dependabot so that it can create systematically push-requests.
 
+![](sca/dependabot_example.png)
+
 ### Static Code Analysis
 
 #### (SAST-01) Validate input-fields (manual review)
