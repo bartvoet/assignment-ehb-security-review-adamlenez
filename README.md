@@ -81,6 +81,7 @@ For a quick overview you can consult the table below:
 | IF-03   | Usage of .env-file inside volume     | Manual     | IF03-S1    | Externalize environment files                 |
 | IF-04   | Privelege escalation                 | SEMGREP    | IF-04-S1   | Apply security-opt-configuration              |
 | IF-05   | Writable root filesystem             | SEMGREP    | IF-05-S1   | Apply read_only-configuration                 |
+| IF-06   | PHPadmin is running                  | Manual     | IF-06-S1   | Create a well secured admin page              |
 | SCA-01  | Outdated PHP-image                   | SNYK       | SCA-01-S1  | Minor upgrade to php:8.2-fpm                  |
 |         |                                      |            | SCA-01-M1  | Mitigation on CVE-2023-45853                  |
 | SCA-02  | Axios outdated                       | DEPENDABOT | SCA-02-S1  | Upgrade Axios to 1.6                          |
@@ -285,6 +286,16 @@ services:
     read_only: true
   ...
 ~~~
+
+#### (IF-06) PHPadmin is running (source: MANUAL)
+
+PHPAdmin seems to have a lot of vulnerabilities and is not advised to run in production.  
+See e.g. https://medium.com/@959652664/summary-and-analysis-of-penetration-testing-based-on-phpmyadmin-784896851cf9 for some examples.  
+
+##### (IF-06-S1) Implement a page for viewing (and removing) comments
+
+Since you want to see the comments the suggestion is to create a kind of minimalistic but well protected
+admin space where you can manage this.
 
 ### Software Composition Analysis (SCA)
 
