@@ -405,7 +405,7 @@ In order to perform to many boilerplate-code in the laravel-code the best and si
 would be to alter the ngnix-configuration.  
 Below you'll fine an example-snippet
 
-~~~conf
+~~~nginx
 add_header Content-Security-Policy "default-src 'self';";
 ~~~
 
@@ -418,7 +418,7 @@ directive or X-Frame-Options to protect against 'ClickJacking' attacks.
 
 Below you'll fine an example-snippet
 
-~~~conf
+~~~nginx
 add_header Content-Security-Policy "frame-ancestors 'none'";
 add_header X-Frame-Options DENY;
 ~~~
